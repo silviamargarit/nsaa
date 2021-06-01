@@ -126,5 +126,55 @@ passport.use('jwt', new JWTStrategy(
  }))
 ```
 
+## OAuth with GitHub
+After creating an OAuth application on GitHub, we can add a new strategy on our express-app.
 
+```javascript
+const GitHubStrategy = require('passport-github2').Strategy
 
+passport.use('github', new GitHubStrategy({
+    clientID: '...',
+    clientSecret: '...',
+    callbackURL: "http://localhost:3000/oauth2/token" //the callback of our OAuth application
+  },
+  function(accessToken, refreshToken, profile, done) {
+    user = {githubId: profile.id, username:profile.username}
+    return done(null, user)
+  }
+  ))
+```
+In order to use it, we add the following code
+
+```javascript
+app.get('/auth/github',
+    passport.authenticate('github', { scope: [ 'user:email' ] }),
+    (req, res) => {
+        res.redirect('/')
+    }
+)
+
+app.get('/oauth2/token', 
+  passport.authenticate('github', { failureRedirect: '/login', session: false}),
+    // Successful authentication, redirect home.
+    (req, res) => {
+        
+        const jwtClaims = {
+          sub: req.user.username,
+          iss: 'localhost:3000',
+          aud: 'localhost:3000',
+          exp: Math.floor(Date.now() / 1000) + 604800,
+          // 1 week (7×24×60×60=604800s) from now
+          role: 'user', // just to show a private JWT field
+      }
+    
+        // generate a signed json web token.
+    
+        const token = jwt.sign(jwtClaims, jwtSecret)
+    
+        res.cookie('token', token, { maxAge: 60000, httpOnly: true })
+        res.redirect('/')
+        console.log('Cookies created successfully')
+    
+      }
+  );
+```
