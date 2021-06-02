@@ -283,3 +283,6 @@ app.post('/login_radius',
       }
 )
 ```
+Finally, as the login_radius.html file has the same contents as the login.html file that we used for the normal login, we have to be aware to change the endpoint that this file looks at in order to be sure that it redirects the user to the radius login strategy. We have changed the following:
+```html
+<form action="/login_radius" method="post">  <!-- when the formulary is submitted, it will be POSTed to /login_radius-->
