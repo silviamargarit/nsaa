@@ -38,7 +38,7 @@ const cookieExtractor = function (req) {
  return token
 }
 ```
-In the `passport-jwt` strategy, we need to define the secret used to create the JWT and how the JWT is recovered, that is from the cookie in this case. We also defined a function that is called as a middleware if the verification is correct. The code of our jwt strategy is the following one:
+In the `passport-jwt` strategy, we need to define the secret used to create the JWT and how the JWT is recovered, which is from the cookie, in this case. We also defined a function as a middleware to check if the verification is correct. The code of our jwt strategy is the following one:
 
 ```javascript
 passport.use('jwt', new JWTStrategy(
@@ -57,7 +57,7 @@ passport.use('jwt', new JWTStrategy(
    return done(null, false)
  }))
 ```
-The strategy will check that the cookie generated for the cookieExtractor function is the appropriate one, and will return the constant `user` only if the authentication of this cookie is correct.
+The strategy will check that the cookie generated for the cookieExtractor function is the appropriate one, and it will return the constant `user` only if the authentication of this cookie is correct.
 
 ## Challenge 3: Add a logout endpoint
 We want to create a new route to logout the user. We can achieve this only by resetting the cookie. As the server is stateless, the only thing that stores the session is the cookie that we previously generated.
@@ -143,7 +143,7 @@ passport.use('github', new GitHubStrategy({
   }
   ))
 ```
-In order to use it, we add the following code
+In order to use it, we add the following endpoints:
 
 ```javascript
 app.get('/auth/github',
@@ -257,7 +257,7 @@ function (username, password, done) {
 }))
 ```
 
-Now we can define our endpoint for the Radius log in:
+Now we can define our endpoint for the Radius login:
 ```javascript
 app.get('/login_radius', (req, res) => {
     res.sendFile('login_radius.html', {root: __dirname})
