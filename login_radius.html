@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+
+<body>
+    <p><strong>Login with Radius</strong></p>
+    <p>Please login to proceed (using the upc.edu user)</p>
+    <form action="/login_radius" method="post">  <!-- when the formulary is submitted, it will be POSTed to /login_radius-->
+        <div>
+            <label>Username:</label>
+            <input type="text" name="username" />
+        </div>
+        <div>
+            <label>Password:</label>
+            <input type="password" name="password" />
+        </div>
+        <div>
+            <input type="submit" value="Log In" />
+        </div>
+    </form>
+</body>
+
+</html>
